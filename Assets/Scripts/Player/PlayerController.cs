@@ -5,7 +5,7 @@ namespace Player
     public class PlayerController : MonoBehaviour
     {
         private const float Speed = 1.0f;
-        private const float RotationSpeed = 5.0f;
+        private const float RotationSpeed = 2.0f;
         private const float CameraSensitive = 500f;
 
         private float _yaw;
@@ -14,15 +14,14 @@ namespace Player
         private GameObject _springArm;
         private GameObject _camera;
 
-        private Transform _cameraTransform;
-        
         private void Start()
         {
+            Transform gameObjectTransform = transform;
             _springArm = new GameObject("Spring Arm")
             {
                 transform =
                 {
-                    parent = transform,
+                    parent = gameObjectTransform,
                     localPosition = new Vector3()
                 }
             };
@@ -32,13 +31,11 @@ namespace Player
                 transform =
                 {
                     parent = _springArm.transform,
-                    localPosition = new Vector3()
+                    rotation = gameObjectTransform.rotation,
+                    localPosition = new Vector3() - gameObjectTransform.forward * 2
                 }
             };
-            _camera.transform.localPosition -= transform.forward * 2;
-            _camera.transform.rotation = transform.rotation;
             _camera.AddComponent<Camera>();
-            _cameraTransform = _camera.transform;
         }
         
         private void Update()
@@ -51,7 +48,6 @@ namespace Player
             if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
             {
                 Vector3 dir = (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")).normalized;
-                dir.y = 0;
                 transform.position += dir * (Time.deltaTime * Speed);
                 transform.rotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(0, _yaw, 0), Time.deltaTime * RotationSpeed);
             }
