@@ -5,47 +5,14 @@ namespace Terrain
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(MeshCollider))]
     public class TerrainMesh : MonoBehaviour
     {
-        private const int Resolution = 16;
-
+        private const int MaxIterations = 3;
+        
         private void Start()
         {
-            Vector3[] vertices = new Vector3[Resolution * Resolution];
-            int[] triangles = new int[6 * Resolution * Resolution];
-
-            int index = 0;
-            int triangleIndex = 0;
-            for (int x = 0; x < Resolution; x++)
-            {
-                for (int y = 0; y < Resolution; y++)
-                {
-                    Vector2 percent = new Vector2(x, y) / (Resolution - 1);
-                    percent = (percent - new Vector2(0.5f, 0.5f)) * 2; 
-                    Vector3 pointOnPlane = transform.forward * percent.y + transform.right * percent.x;
-                    vertices[index] = pointOnPlane;
-
-                    if (x != Resolution - 1 && y != Resolution - 1)
-                    {
-                        triangles[triangleIndex] = index;
-                        triangles[triangleIndex + 1] = index + Resolution + 1;
-                        triangles[triangleIndex + 2] = index + Resolution;
-
-                        triangles[triangleIndex + 3] = index;
-                        triangles[triangleIndex + 4] = index + 1;
-                        triangles[triangleIndex + 5] = index + Resolution + 1;
-                        
-                        triangleIndex += 6;
-                    }
-                    
-                    index++;
-                }
-            }
-
             MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-            Mesh mesh = meshFilter.mesh;
-            mesh.Clear();
-            mesh.vertices = vertices;
-            mesh.triangles = triangles;
+            Mesh mesh = GenerateMesh();
             mesh.RecalculateNormals();
+            meshFilter.sharedMesh = mesh;
 
             MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
             Material material = new Material(Shader.Find("Unlit/Color"));
@@ -53,6 +20,46 @@ namespace Terrain
 
             MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
             meshCollider.sharedMesh = mesh;
+        }
+
+        private Mesh GenerateMesh()
+        {
+            Vector3[,] points = DiamondSquare.GeneratePoints(MaxIterations);
+            Vector3[] vertices = new Vector3[points.Length];
+            int[] triangles = new int[6 * points.Length];
+
+            int length = (int)Mathf.Sqrt(points.Length);
+            
+            int triangleIndex = 0;
+            int index = 0;
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    vertices[index] = points[i, j];
+                    
+                    if (i != length - 1 && j != length - 1)
+                    {
+                        triangles[triangleIndex] = index;
+                        triangles[triangleIndex + 1] = index + length + 1;
+                        triangles[triangleIndex + 2] = index + length;
+
+                        triangles[triangleIndex + 3] = index;
+                        triangles[triangleIndex + 4] = index + 1;
+                        triangles[triangleIndex + 5] = index + length + 1;
+                        
+                        triangleIndex += 6;
+                    }
+                    index++;
+                }
+            }
+
+            Mesh mesh = new Mesh
+            {
+                vertices = vertices,
+                triangles = triangles
+            };
+            return mesh;
         }
     }
 }

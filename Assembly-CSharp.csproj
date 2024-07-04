@@ -48,7 +48,9 @@
     <Compile Include="Assets\Scripts\Terrain\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Terrain\Test.cs" />
     <Compile Include="Assets\Scripts\Event\EventBus.cs" />
+    <Compile Include="Assets\Scripts\Terrain\DiamondSquare.cs" />
     <Compile Include="Assets\Scripts\Terrain\TerrainMesh.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.17f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
