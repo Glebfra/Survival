@@ -2,13 +2,12 @@
 
 namespace Player
 {
-    [RequireComponent(typeof(PlayerController), typeof(Rigidbody))]
+    [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour
     {
-        private void Start()
+        public void Start()
         {
-            gameObject.GetComponent<PlayerController>();
-            gameObject.GetComponent<Rigidbody>();
+            
         }
     }
 }
