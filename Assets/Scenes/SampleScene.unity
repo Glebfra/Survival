@@ -253,7 +253,6 @@ GameObject:
   - component: {fileID: 459178316}
   - component: {fileID: 459178315}
   - component: {fileID: 459178314}
-  - component: {fileID: 459178312}
   - component: {fileID: 459178311}
   - component: {fileID: 459178310}
   - component: {fileID: 459178318}
@@ -276,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4ed94588a745bb9d5877fa548ff6f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
 --- !u!114 &459178311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,18 +290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rotationSpeed: 1
---- !u!114 &459178312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459178309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40462a5598744be1a990ce17599dc2d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   lookSpeed: 1
   cameraDistance: 2
 --- !u!65 &459178314
