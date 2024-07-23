@@ -7,8 +7,8 @@ namespace Control
         public GameObject SpringArm => _springArm;
         public GameObject Camera => _camera;
         
-        [SerializeField] private float lookSpeed = 1.0f;
-        [SerializeField] private float cameraDistance = 2.0f;
+        [SerializeField] private float _lookSpeed = 1.0f;
+        [SerializeField] private float _cameraDistance = 2.0f;
         
         private GameObject _springArm;
         private GameObject _camera;
@@ -28,7 +28,7 @@ namespace Control
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
 
-            _rotation += new Vector2(-mouseY, mouseX) * lookSpeed;
+            _rotation += new Vector2(-mouseY, mouseX) * _lookSpeed;
             _rotation.x = Mathf.Clamp(_rotation.x, -90.0f, 90.0f);
             _springArm.transform.rotation = Quaternion.Euler(_rotation);
         }
@@ -51,7 +51,7 @@ namespace Control
 
             Transform cameraTransform = cameraObject.transform;
             cameraTransform.parent = target.transform;
-            cameraTransform.localPosition = -target.transform.forward * cameraDistance;
+            cameraTransform.localPosition = -target.transform.forward * _cameraDistance;
             cameraTransform.localRotation = target.transform.rotation;
 
             return cameraObject;
